@@ -7,7 +7,7 @@
       <div class="scroll-item__text-container" v-if="question.text">
         {{ question.text }}
       </div>
-      <div class="scroll-item__answer-area" v-if="isQuestion">
+      <div class="scroll-item__answer-area" v-if="question.answer">
         <div
           class="scroll-item__remove"
           v-if="question.answer"
@@ -30,17 +30,21 @@
 <style lang="sass">
 .scroll-item
   height: 130px
+  margin-top: auto
+  margin-bottom: auto
   padding: 30px 0
   display: flex
   justify-content: center
+  align-items: center
   transition: all .3s ease
   &_active
     .scroll-item
       &__container
         transform: scale(1.2)
-        border-color: red
+        // border-color: red
   &__container
-    border: 1px solid #eeeeee
+    background-color: #fff
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)
     border-radius: 5px
     height: 100%
     width: 80%
@@ -64,8 +68,10 @@
       max-width: 80%
   &__answer-area
     height: 50%
-    background-color: #f5f5f5
+    background-color: #d3d434
     position: relative
+    border-bottom-left-radius: 5px
+    border-bottom-right-radius: 5px
   &__text-container
     flex: 1
     display: flex

@@ -1,7 +1,9 @@
 <template>
   <div class="top-scroll" v-show="questions.length">
     <div class="top-scroll__arrow-left top-scroll__arrow" @click="scrollToPrevious()">
-      <div class="chevron left"></div>
+      <div class="top-scroll__arrow-circle">
+      </div>
+      <i class="fas fa-chevron-left top-scroll__arrow-icon top-scroll__arrow-icon-left"></i>
     </div>
     <transition-group
       class="top-scroll__items"
@@ -26,7 +28,9 @@
       <div class="top-scroll__item" key="padding-3"></div>
     </transition-group>
     <div class="top-scroll__arrow-right top-scroll__arrow" @click="scrollToNext()">
-      <div class="chevron right"></div>
+      <div class="top-scroll__arrow-circle">
+      </div>
+      <i class="fas fa-chevron-right top-scroll__arrow-icon top-scroll__arrow-icon-right"></i>
     </div>
   </div>
 </template>
@@ -38,7 +42,10 @@
   display: flex
   flex: 1
   position: relative
+  max-height: 200px
+  overflow: hidden
   &__items
+    display: flex
     flex: 1
     display: flex
     overflow-y: hidden
@@ -48,20 +55,44 @@
   &__item
     width: 25%
     flex-shrink: 0
+  &__arrow-circle
+    background-color: #7abeb8
+    position: absolute
+    width: 100%
+    height: 100%
+    border-radius: 50%
+    opacity: 0.1
+    transition: all .3s ease
+
   &__arrow
     position: absolute
-    background-color: #7abeb8
-    width: 55px
-    height: 100%
+    width: 80px
+    height: 130px
     z-index: 10
     display: flex
     justify-content: center
     align-items: center
     cursor: pointer
     top: 50%
-    transform: translateY(-50%)
+    transform: translate(50%, -50%)
+    &:hover
+      .top-scroll
+        &__arrow-circle
+          opacity: 1
+        &__arrow-icon
+          color: #fff
+  &__arrow-icon
+    color: #7abeb8
+    font-size: 28px
+    position: relative
+    transition: all .3s ease
+  &__arrow-icon-left
+    margin-left: 30px
+  &__arrow-icon-right
+    margin-right: 30px
   &__arrow-left
     left: 0px
+    transform: translate(-50%, -50%)
   &__arrow-right
     right: 0px
   +media-min-md()

@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <div class="activity-container">
+      <div class="moldura"></div>
       <top-scroll
+        class="activity-container__activity"
         :questions="questions"
         is-question
         @active-item="setActiveQuestion"
@@ -9,11 +11,12 @@
         ref="questionsEl"
       ></top-scroll>
       <button class="match-btn" @click="match" v-if="!(matchUpIcon === null)">
-        <i class="fas fa-arrows-alt-v match-btn__icon" v-show="matchUpIcon === false"></i>
-        <i class="fas fa-long-arrow-alt-up match-btn__icon" v-show="matchUpIcon === true"></i>
-        Match
+        <span>
+          {{ matchUpIcon ? 'Match' : 'Change' }}
+        </span>
       </button>
       <top-scroll
+        class="activity-container__activity"
         :questions="activeAnswers"
         @active-item="setActiveAnswer"
         :start-item="Math.floor((activeAnswers.length / 2) - 1)"
@@ -24,25 +27,53 @@
 
 <style lang="sass">
 @import ./mobileFirst
+.moldura
+  position: absolute
+  width: 27%
+  height: 90%
+  background-color: #7abeb8
+  // border: 1px dashed #332b7b
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
+  left: 50%
+  transform: translateX(-50%)
 .match-btn
   margin: 20px
   height: 60px
-  width: 180px
+  width: 200px
   background-color: #d6e702
   border: none
   border-radius: 5px
   cursor: pointer
   font-weight: light
   font-size: 18px
+  z-index: 10
+  position: relative
+  display: flex
+  justify-content: center
+  align-items: center
+  span
+    margin-top: 5px
   &__icon
+    position: absolute
+    left: 35px
     font-size: 25px
-    margin-right: 20px
+  &__icon-down
+    left: auto
+    right: 35px
 .activity-container
+  position: relative
   background-color: #fff
   border-radius: 5px
   width: 100%
   height: 100%
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  &__activity
+    flex: 1
+    width: 100%
   +media-min-sm()
     width: 80%
     height: 80%
