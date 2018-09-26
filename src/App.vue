@@ -101,6 +101,7 @@ export default {
     match() {
       const answerItem = this.activeAnswers[this.activeAnswer]
       if(!answerItem) {
+        console.log('!answerItem');
         return;
       }
       answerItem.removed = true;
@@ -114,10 +115,13 @@ export default {
     },
     getNextUnansweredItem() {
       const questions = _.cloneDeep(this.questions);
+      questions.rotate(this.activeAnswer);
       const nextItem = questions.find(question => !question.answer);
       if (!nextItem) {
+        console.log('nextItem')
         return 0;
       }
+      console.log('getNextUnanswerItem')
       return this.questions.findIndex(question => question.text === nextItem.text);
     },
   },
