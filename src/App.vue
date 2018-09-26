@@ -29,13 +29,15 @@
 @import ./mobileFirst
 .moldura
   position: absolute
-  width: 27%
   height: 90%
+  width: 70%
   background-color: #7abeb8
   // border: 1px dashed #332b7b
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
   left: 50%
   transform: translateX(-50%)
+  +media-min-md()
+    width: 27%
 .match-btn
   margin: 20px
   height: 60px
@@ -146,7 +148,7 @@ export default {
     },
     getNextUnansweredItem() {
       const questions = _.cloneDeep(this.questions);
-      questions.rotate(this.activeAnswer);
+      questions.rotate(this.activeQuestion);
       const nextItem = questions.find(question => !question.answer);
       if (!nextItem) {
         console.log('nextItem')

@@ -12,8 +12,7 @@
       mode="in-out"
       tag="div"
     >
-      <div class="top-scroll__item" key="padding-0"></div>
-      <div class="top-scroll__item" key="padding-1"></div>
+      <div class="top-scroll__item-padding" ref="itemPadding" key="padding-1"></div>
       <scroll-item
         class="top-scroll__item"
         ref="scrollItems"
@@ -24,8 +23,7 @@
         :active="index === activeItemIndex"
         @click="scrollToItem(index)"
       ></scroll-item>
-      <div class="top-scroll__item" key="padding-2"></div>
-      <div class="top-scroll__item" key="padding-3"></div>
+      <div class="top-scroll__item-padding" key="padding-2"></div>
     </transition-group>
     <div class="top-scroll__arrow-right top-scroll__arrow" @click="scrollToNext()">
       <div class="top-scroll__arrow-circle">
@@ -52,9 +50,15 @@
     overflow-x: auto
     position: relative
     user-select: none
-  &__item
-    width: 25%
+  &__item-padding
+    width: 50%
     flex-shrink: 0
+  &__item
+    width: 50%
+    flex-shrink: 0
+    +media-min-md()
+      width: 25%
+
   &__arrow-circle
     background-color: #7abeb8
     position: absolute
@@ -137,22 +141,31 @@ export default {
     setActiveIndex() {
       this.activeItemIndex = this.getActiveIndex();
     },
+    getItemPaddingWidth() {
+      return this.$refs.itemPadding.clientWidth;
+    },
     getActiveIndex() {
       const halfContainerWidth = this.scrollContainerEl.clientWidth / 2;
       const quarterSingleItemWidth = this.getSingleItemWidth() / 4;
-      let activeIndex = Math.floor((this.scrollContainerEl.scrollLeft + halfContainerWidth + quarterSingleItemWidth) / this.getSingleItemWidth()) - 2;
+      let activeIndex = Math.floor((this.scrollContainerEl.scrollLeft + halfContainerWidth + quarterSingleItemWidth - this.getItemPaddingWidth()) / this.getSingleItemWidth());
+      console.log(activeIndex);
       return this.validateItemIndex(activeIndex);
     },
     validateItemIndex(itemIndex) {
       const validIndex = Math.min(itemIndex, this.questions.length - 1);
+      console.log('VALIDATE', Math.max(validIndex, 0));
       return Math.max(validIndex, 0);
     },
     getSingleItemWidth() {
+      console.log(this.$refs.scrollItems[0])
+      console.log('getSingleItemWidth', this.$refs.scrollItems[0].$el.clientWidth);
+      return this.$refs.scrollItems[0].$el.clientWidth;
       return this.scrollContainerEl.scrollWidth / (this.questions.length + 4);
     },
     getItemLocation(itemIndex) {
       const singleItemWidth = this.getSingleItemWidth();
       const halfSingleItemWidth = singleItemWidth / 2;
+      console.log('getItemLocation', (singleItemWidth * itemIndex) + (halfSingleItemWidth))
       return (singleItemWidth * itemIndex) + (halfSingleItemWidth);
     },
     scrollToItem(itemIndex) {
@@ -199,7 +212,7 @@ export default {
       }
       this.stopScrollTimeout = setTimeout(() => {
         this.scrollToActive();
-      }, 750);
+      }, 250);
 
     });
   },
