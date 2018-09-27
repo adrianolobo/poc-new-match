@@ -65,13 +65,13 @@
     width: 100%
     height: 100%
     border-radius: 50%
-    opacity: 0.1
+    opacity: 1
     transition: all .3s ease
 
   &__arrow
     position: absolute
     width: 80px
-    height: 130px
+    height: 120px
     z-index: 10
     display: flex
     justify-content: center
@@ -82,11 +82,14 @@
     &:hover
       .top-scroll
         &__arrow-circle
+          height: 125px
+          width: 85px
           opacity: 1
+          box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)
         &__arrow-icon
           color: #fff
   &__arrow-icon
-    color: #7abeb8
+    color: #fff
     font-size: 28px
     position: relative
     transition: all .3s ease

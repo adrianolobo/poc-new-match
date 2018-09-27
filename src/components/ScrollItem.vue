@@ -32,7 +32,7 @@
   height: 130px
   margin-top: auto
   margin-bottom: auto
-  padding: 30px 0
+  padding: 20px 0
   display: flex
   justify-content: center
   align-items: center
@@ -54,6 +54,7 @@
     transition: all .3s ease
     cursor: pointer
     flex-direction: column
+    transform-origin: center
   &__img-container
     display: flex
     justify-content: center
