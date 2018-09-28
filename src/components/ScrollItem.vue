@@ -1,5 +1,9 @@
 <template>
-  <div @click="click" class="scroll-item" :class="{ 'scroll-item_active': active }">
+  <div
+    @click="click"
+    class="scroll-item"
+    :class="{ 'scroll-item_active': active, 'scroll-item_active-disabled': active && activeDisabled }"
+  >
     <div class="scroll-item__container" v-if="question">
       <div class="scroll-item__img-container" v-if="question.image">
         <img draggable="false" :src="`/imgs/${question.image}`" alt="">
@@ -10,7 +14,7 @@
       <div class="scroll-item__answer-area" v-if="question.answer">
         <div
           class="scroll-item__remove"
-          v-if="question.answer"
+          v-if="false"
           @click="removeAnswer"
         >
           x
@@ -42,6 +46,11 @@
       &__container
         transform: scale(1.2)
         // border-color: red
+  &_active-disabled
+    .scroll-item
+      &__container
+        background-color: #dcdcdc
+        filter: grayscale(1)
   &__container
     background-color: #fff
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)
@@ -69,7 +78,7 @@
       max-width: 80%
   &__answer-area
     height: 50%
-    background-color: #d3d434
+    background-color: #eee
     position: relative
     border-bottom-left-radius: 5px
     border-bottom-right-radius: 5px
@@ -101,6 +110,7 @@ export default {
     question: Object,
     active: Boolean,
     isQuestion: Boolean,
+    activeDisabled: Boolean,
   },
   methods: {
     click() {

@@ -21,6 +21,7 @@
         v-for="(question, index) in questions"
         :key="question.image || question.text"
         :active="index === activeItemIndex"
+        :active-disabled="activeDisabled"
         @click="scrollToItem(index)"
       ></scroll-item>
       <div class="top-scroll__item-padding" key="padding-2"></div>
@@ -41,6 +42,7 @@
   flex: 1
   position: relative
   max-height: 200px
+  min-height: 120px
   overflow: hidden
   &__items
     display: flex
@@ -128,6 +130,7 @@ export default {
   props: {
     questions: Array,
     isQuestion: Boolean,
+    activeDisabled: Boolean,
     startItem: Number,
   },
   data() {
@@ -161,6 +164,9 @@ export default {
     },
     getSingleItemWidth() {
       console.log(this.$refs.scrollItems[0])
+      if (!this.$refs.scrollItems[0]) {
+        return 0;
+      }
       console.log('getSingleItemWidth', this.$refs.scrollItems[0].$el.clientWidth);
       return this.$refs.scrollItems[0].$el.clientWidth;
       return this.scrollContainerEl.scrollWidth / (this.questions.length + 4);

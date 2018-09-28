@@ -32,21 +32,26 @@
           :start-item="0"
           ref="questionsEl"
         ></top-scroll>
-        <button class="match-btn" @click="match" v-if="!(matchUpIcon === null)">
+        <button
+          class="match-btn"
+          :class="{ 'match-btn_remove': !canMatch }"
+          @click="match"
+        >
           <span>
-            {{ matchUpIcon ? 'Match' : 'Change' }}
+            {{ canMatch ? 'Match' : 'Remove' }}
           </span>
         </button>
         <top-scroll
           class="activity-container__activity"
           :questions="activeAnswers"
           @active-item="setActiveAnswer"
+          :active-disabled="!canMatch"
           :start-item="Math.floor((activeAnswers.length / 2) - 1)"
         ></top-scroll>
       </div>
       <div class="app__footer">
         <div class="footer-button">Help</div>
-        <div class="footer-button footer-button_gray" :class="{ 'footer-button_check-active': (matchUpIcon === null) }">Check</div>
+        <div class="footer-button footer-button_gray" :class="{ 'footer-button_check-active': (canMatch === null) }">Check</div>
       </div>
     </div>
   </div>
@@ -217,6 +222,10 @@
   display: flex
   justify-content: center
   align-items: center
+  transition: all .3s ease .2s
+  &_remove
+    background-color: #ef5350
+    color: #fff
   +media-min-md()
     width: 200px
     height: 60px
@@ -258,7 +267,7 @@ export default {
         return !answer.removed;
       });
     },
-    matchUpIcon() {
+    canMatch() {
       if (!this.activeAnswers.length) {
         return null;
       }
@@ -274,16 +283,14 @@ export default {
     },
     match() {
       const answerItem = this.activeAnswers[this.activeAnswer]
-      if(!answerItem) {
-        console.log('!answerItem');
-        return;
-      }
-      answerItem.removed = true;
       const questionItem = this.questions[this.activeQuestion]
       if (questionItem.answer) {
         questionItem.answer.removed = false;
+        questionItem.answer = null;
+        return;
       }
       questionItem.answer = answerItem;
+      answerItem.removed = true;
       const nextItemIndex = this.getNextUnansweredItem();
       this.$refs.questionsEl.scrollToItem(nextItemIndex);
     },
