@@ -23,6 +23,7 @@
         :active="index === activeItemIndex"
         :active-disabled="activeDisabled"
         @click="scrollToItem(index)"
+        @click-active="clickActive()"
       ></scroll-item>
       <div class="top-scroll__item-padding" key="padding-2"></div>
     </transition-group>
@@ -62,12 +63,12 @@
       width: 25%
 
   &__arrow-circle
-    background-color: #7abeb8
+    background-color: #2e2e78
     position: absolute
     width: 100%
     height: 100%
     border-radius: 50%
-    opacity: 1
+    opacity: 0.2
     transition: all .3s ease
 
   &__arrow
@@ -91,7 +92,7 @@
         &__arrow-icon
           color: #fff
   &__arrow-icon
-    color: #fff
+    color: #2e2e78
     font-size: 28px
     position: relative
     transition: all .3s ease
@@ -144,6 +145,9 @@ export default {
   computed: {
   },
   methods: {
+    clickActive() {
+      this.$emit('click-active');
+    },
     setActiveIndex() {
       this.activeItemIndex = this.getActiveIndex();
     },

@@ -114,6 +114,10 @@ export default {
   },
   methods: {
     click() {
+      if (this.active) {
+        this.$emit('click-active');
+        return;
+      }
       this.$emit('click');
     },
     removeAnswer() {

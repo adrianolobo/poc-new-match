@@ -29,6 +29,7 @@
           :questions="questions"
           is-question
           @active-item="setActiveQuestion"
+          @click-active="match"
           :start-item="0"
           ref="questionsEl"
         ></top-scroll>
