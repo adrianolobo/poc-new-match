@@ -154,13 +154,21 @@ export default {
     getItemPaddingWidth() {
       return this.$refs.itemPadding.clientWidth;
     },
+    // pega o index do array de acordo com o scrollLeft do container
     getActiveIndex() {
       const halfContainerWidth = this.scrollContainerEl.clientWidth / 2;
       const quarterSingleItemWidth = this.getSingleItemWidth() / 4;
+      // o calculo é feito a partir da metade do container Width
+      // a partir dele existe um padding de um quarto do tamanho de um item
+      // este padding é feito para que o calculo do item principal tenha esse padding,
+      // assim ele não precisa estar exatamente no meio para ser o ativo
+      // Este valor é dividido pelo tamanho total de um card para saber o index do item
       let activeIndex = Math.floor((this.scrollContainerEl.scrollLeft + halfContainerWidth + quarterSingleItemWidth - this.getItemPaddingWidth()) / this.getSingleItemWidth());
       console.log(activeIndex);
       return this.validateItemIndex(activeIndex);
     },
+    // esta função serve para que seja validado o index encontrado das funções previnindo que
+    // como o index é calculado a partir do scroll, existe a possibilidade do resultado ser -1 ou maior que o length.
     validateItemIndex(itemIndex) {
       const validIndex = Math.min(itemIndex, this.questions.length - 1);
       console.log('VALIDATE', Math.max(validIndex, 0));
@@ -175,12 +183,16 @@ export default {
       return this.$refs.scrollItems[0].$el.clientWidth;
       return this.scrollContainerEl.scrollWidth / (this.questions.length + 4);
     },
+    // recebe o scrollLeft do item a partir de um index do array
     getItemLocation(itemIndex) {
       const singleItemWidth = this.getSingleItemWidth();
       const halfSingleItemWidth = singleItemWidth / 2;
+      // a localização é feita basicamente multiplicando o index pelo tamanho do item
+      // e somando metade de um item para manter ele no centro
       console.log('getItemLocation', (singleItemWidth * itemIndex) + (halfSingleItemWidth))
       return (singleItemWidth * itemIndex) + (halfSingleItemWidth);
     },
+    // scrollToItem implementa as funções para ter uma função fácil que faz o scroll para qualquer item no array
     scrollToItem(itemIndex) {
       const validItemIndex = this.validateItemIndex(itemIndex);
       const scrollTo = this.getItemLocation(validItemIndex)
@@ -223,6 +235,8 @@ export default {
       if(this.autoScrolling) {
         return;
       }
+      // depois de 250ms de inatividade do scroll é executado a função que
+      // centraliza o scroll para o centro
       this.stopScrollTimeout = setTimeout(() => {
         this.scrollToActive();
       }, 250);
